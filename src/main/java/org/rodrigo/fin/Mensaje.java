@@ -14,8 +14,8 @@ import org.springframework.data.annotation.Id;
 
 public class Mensaje {
 @Id
- String id;
-private String titulo;
+String id;
+String titulo;
 
     public Mensaje(String id, String titulo) {
         this.id = id;

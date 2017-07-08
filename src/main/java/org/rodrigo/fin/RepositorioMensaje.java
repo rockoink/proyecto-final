@@ -6,14 +6,12 @@
 package org.rodrigo.fin;
 
 
-import java.io.Serializable;
-import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  *
  * @author Sony
  */
-public interface RepositorioMensaje extends MongoRepository<Mensaje, String> {
+public interface RepositorioMensaje extends MongoRepository<Mensaje,String> {
     
 }

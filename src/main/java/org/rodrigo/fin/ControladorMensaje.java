@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Sony
  */
 @RestController
-@CrossOrigin  //permite que otros servidores accedan a los servicios 
+@CrossOrigin  
+//permite que otros servidores accedan a los servicios 
 public class ControladorMensaje {
     @Autowired RepositorioMensaje repoMensaje;
     
@@ -25,7 +26,7 @@ public class ControladorMensaje {
 
     public String guardarMensaje(){
 repoMensaje.save(new Mensaje("mi primer registro en Mongo"));
-return "Mensaje guardado";
+return "Mensaje guardado por fin";
 }
     
     
