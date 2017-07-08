@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ControladorMensaje {
     @Autowired RepositorioMensaje repoMensaje;
     
-    @RequestMapping(value="/guardar-mensaje",method=RequestMethod.GET,headers={"Accept=text/html"})
+    @RequestMapping(value="/guardar-mensaje",method=RequestMethod.GET,
+                    headers={"Accept= text/html"})
 
     public String guardarMensaje(){
 repoMensaje.save(new Mensaje("mi primer registro en Mongo"));
