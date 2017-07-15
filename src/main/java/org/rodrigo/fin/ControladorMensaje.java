@@ -7,6 +7,7 @@ package org.rodrigo.fin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @CrossOrigin  
+
+//@Path("/mensaje/")
+
+
 //permite que otros servidores accedan a los servicios 
 public class ControladorMensaje {
     @Autowired RepositorioMensaje repoMensaje;
@@ -28,6 +33,24 @@ public class ControladorMensaje {
 repoMensaje.save(new Mensaje("mi primer registro en Mongo"));
 return "Mensaje guardado por fin";
 }
+    
+    //desarrollar un controlador con las cinco operaciones basicas en el controlador mensaje
+    //nota: como valores de entrada y salida utilizar solamente objetos json y arreglos json
+    
+    //caso post
+    @RequestMapping(value="/mensaje", method=RequestMethod.POST,
+            headers={"application/json"})
+    
+    public Estatus guardar(@RequestBody String json){
+         System.out.println(json);
+        
+         Estatus e=new Estatus();
+         e.setSuccess(true);
+         return e;
+    }
+    
+    
+    
     
     
 }
