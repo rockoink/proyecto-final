@@ -5,6 +5,8 @@
  */
 package org.rodrigo.fin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,14 +27,15 @@ import org.springframework.web.bind.annotation.RestController;
 //permite que otros servidores accedan a los servicios 
 public class ControladorMensaje {
     @Autowired RepositorioMensaje repoMensaje;
-    
+   
+    /* forma anterior
     @RequestMapping(value="/guardar-mensaje",method=RequestMethod.GET,
                     headers={"Accept= text/html"})
 
     public String guardarMensaje(){
 repoMensaje.save(new Mensaje("mi primer registro en Mongo"));
 return "Mensaje guardado por fin";
-}
+}*/
     
     //desarrollar un controlador con las cinco operaciones basicas en el controlador mensaje
     //nota: como valores de entrada y salida utilizar solamente objetos json y arreglos json
@@ -48,8 +51,38 @@ return "Mensaje guardado por fin";
          e.setSuccess(true);
          return e;
     }
+    //caso delete  --prueba
+    @RequestMapping(value="/mensaje", method=RequestMethod.DELETE, headers={"Accept=application/json"})
+    public Estatus borrar(@RequestBody String json) throws Exception{
+        Estatus e =new Estatus();
+        e.setSuccess(true);
+       ObjectMapper  maper=new ObjectMapper();
+       Mensaje mensa=maper.readValue(json,Mensaje.class);
+       repoMensaje.delete(mensa);
+        System.out.println("mensaje eliminado");
+        return e;
+    }
     
     
+    //caso buscar todos
+     @RequestMapping(value="/mensaje", method = RequestMethod.GET, headers = {"Accept=application/json"})
+    public ArrayList<Mensaje> getTodos(){
+         
+        return (ArrayList<Mensaje>) repoMensaje.findAll();
+    }
+    
+    //caso put
+    
+   @RequestMapping(value="/mensaje", method=RequestMethod.PUT, headers = {"Accept=application/json"})
+    public Estatus actualizar(@RequestBody String json)throws Exception{
+        Estatus e=new Estatus();
+        e.setSuccess(true);
+                 ObjectMapper  maper=new ObjectMapper();
+         Mensaje mensa=        maper.readValue(json, Mensaje.class);
+         repoMensaje.save(mensa);
+         System.out.println("El titulo es: "+mensa.getTitulo()+ " el cuerpo es: "+mensa.getCuerpo());
+        return e;
+    } 
     
     
     
