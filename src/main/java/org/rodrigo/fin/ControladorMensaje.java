@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,22 +45,24 @@ return "Mensaje guardado por fin";
     @RequestMapping(value="/mensaje", method=RequestMethod.POST,
             headers={"application/json"})
     
-    public Estatus guardar(@RequestBody String json){
+    public Estatus guardar(@RequestBody String json) throws Exception{
          System.out.println(json);
-        
+        ObjectMapper maper=new ObjectMapper();
+        Mensaje mensa=maper.readValue(json,Mensaje.class);
+        repoMensaje.save(mensa);
          Estatus e=new Estatus();
          e.setSuccess(true);
          return e;
     }
     //caso delete  --prueba
-    @RequestMapping(value="/mensaje", method=RequestMethod.DELETE, headers={"Accept=application/json"})
-    public Estatus borrar(@RequestBody String json) throws Exception{
+    @RequestMapping(value="/mensaje/{id}", method=RequestMethod.DELETE, headers={"Accept=application/json"})
+    public Estatus borrar(@PathVariable String id) throws Exception{
+        System.out.println("llego con un id "+ id);
         Estatus e =new Estatus();
-        e.setSuccess(true);
-       ObjectMapper  maper=new ObjectMapper();
-       Mensaje mensa=maper.readValue(json,Mensaje.class);
-       repoMensaje.delete(mensa);
-        System.out.println("mensaje eliminado");
+       repoMensaje.delete(id);
+       if(repoMensaje.findOne(id)==null) e.setSuccess(true);
+        else e.setSuccess(false);
+       
         return e;
     }
     
