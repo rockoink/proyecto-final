@@ -5,6 +5,8 @@
  */
 package org.rodrigo.fin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,28 +21,64 @@ import org.springframework.web.bind.annotation.RestController;
 public class ControladorUsuario {
    @Autowired RepositorioUsuario repoUsu;
     
-   //get
-   @RequestMapping(value="/usuario", method=RequestMethod.GET,
-            headers={"Accept=text/html"})
+   //gUARDAR POST
+   @RequestMapping(value="/usuario", method=RequestMethod.POST,
+            headers={"Accept=Application/json"})
    
-   public String guardar() {
-       
-    Direccion d=new Direccion("calle 1","colonia 1",1L);
-    Usuario u=new Usuario("1","rodrigo","rvilcches@",d);
-             repoUsu.save(u);
-       
-       return "usuario guardado";
+   public Usuario guardarUsuario(@RequestBody String json) throws Exception {
+   ObjectMapper maper=new ObjectMapper();
+        
+        Usuario u=maper.readValue(json, Usuario.class);
+        repoUsu.save(u);
+         System.out.println("El rfc es: "+u.getRfc()+ " el nombre es: "+u.getNombre()+
+                 "email"+u.getEmail()+"direccion"+u.getDireccion());
+        return u;
    }
    
    //delete
-    @RequestMapping(value="/usuario", method=RequestMethod.DELETE,
-            headers={"Accept=text/html"})
+    @RequestMapping(value="/usuario/{rfc}", method=RequestMethod.DELETE,
+            headers={"Accept=Application/json"})
    
-    public String borrar(@PathVariable String rfc){
+    public Estatus borrar(@PathVariable String rfc){
         
         
         repoUsu.delete(rfc);
-        
-        return "usuario eliminado";
+        Estatus e=new Estatus();
+         e.setSuccess(true);
+         return e;
+            }
+    //buscar todos
+       @RequestMapping(value="/usuario", method = RequestMethod.GET, headers = {"Accept=Application/json"})
+    public ArrayList<Usuario> getTodos(){
+         
+        return (ArrayList<Usuario>) repoUsu.findAll();
     }
+    
+      //caso put usuario
+    
+   @RequestMapping(value="/usuario", method=RequestMethod.PUT, headers = {"Accept=application/json"})
+    public Estatus actualizar(@RequestBody String json)throws Exception{
+        ObjectMapper maper=new ObjectMapper();
+        
+        Usuario u=maper.readValue(json, Usuario.class);
+        repoUsu.save(u);
+         System.out.println("El rfc es: "+u.getRfc()+ " el nombre es: "+u.getNombre()+
+                 "email"+u.getEmail()+"direccion"+u.getDireccion());
+        Estatus e=new Estatus();
+         e.setSuccess(true);
+         return e;
+         
+         } 
+    
+    //buscar por id
+@RequestMapping(value="/usuario/{rfc}", method=RequestMethod.GET,
+            headers={"Application/json"})
+   
+    public Usuario buscarIdUsuario(@PathVariable String rfc){
+        
+        Usuario u=repoUsu.findOne(rfc);
+        return u;
+    
+  
+}
 }
