@@ -31,6 +31,11 @@ public class Direccion {
         this.calle = calle;
     }
 
+    @Override
+    public String toString() {
+        return "Direccion{" + "calle=" + calle + ", colonia=" + colonia + ", cp=" + cp + '}';
+    }
+
     public String getColonia() {
         return colonia;
     }

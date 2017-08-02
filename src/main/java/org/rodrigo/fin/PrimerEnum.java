@@ -9,6 +9,11 @@ package org.rodrigo.fin;
  *
  * @author Sony
  */
-public class Enfermeras {
+public enum PrimerEnum {
+
+    DoctorResponsable,
+    DoctorInterno,
+    Enfermera,
+    PersonalAdministrativo;
     
 }

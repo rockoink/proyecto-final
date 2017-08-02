@@ -20,8 +20,15 @@ public class FinApplication implements CommandLineRunner {
  
                    Direccion d=new Direccion("nada","hola",123l);
             Usuario u=new Usuario ("1","rodrigo","rvilcches@",d);
-            Usuario guardado=repoUsu.save(u);
-            System.out.println("giuardado con el rfc "+guardado.getRfc());
+            //Usuario guardado=repoUsu.save(u);
+            
+           // System.out.println("giuardado con el rfc "+guardado.getRfc());
+          // for(Usuario us: repoUsu.findAll()){
+          //     System.out.println(us);
+          // }
+          
+          //System.out.println("malo "+repoUsu.findOne("5977f6787fa0430688568c46"));
+          System.out.println(repoUsu.findByNombre("rodrigo"));
  
     }
         

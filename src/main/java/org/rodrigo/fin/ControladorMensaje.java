@@ -43,9 +43,10 @@ return "Mensaje guardado por fin";
     
     //caso post
     @RequestMapping(value="/mensaje", method=RequestMethod.POST,
-            headers={"application/json"})
+            headers={"Accept=application/json"})
     
     public Estatus guardar(@RequestBody String json) throws Exception{
+        System.out.println("se debe ver");
          System.out.println(json);
         ObjectMapper maper=new ObjectMapper();
         Mensaje mensa=maper.readValue(json,Mensaje.class);
@@ -55,7 +56,14 @@ return "Mensaje guardado por fin";
          return e;
     }
     //caso delete  --prueba
-    @RequestMapping(value="/mensaje/{id}", method=RequestMethod.DELETE, headers={"Accept=application/json"})
+    @RequestMapping(value="/mensaje/{id}", method=RequestMethod.GET, headers={"Accept=application/json"})
+    public Mensaje buscarPorId(@PathVariable String id) throws Exception{
+        System.out.println("llego con un id "+ id);
+       
+       Mensaje men=repoMensaje.findOne(id);
+        return men;
+    }
+     @RequestMapping(value="/mensaje/{id}", method=RequestMethod.DELETE, headers={"Accept=application/json"})
     public Estatus borrar(@PathVariable String id) throws Exception{
         System.out.println("llego con un id "+ id);
         Estatus e =new Estatus();
@@ -65,7 +73,6 @@ return "Mensaje guardado por fin";
        
         return e;
     }
-    
     
     //caso buscar todos
      @RequestMapping(value="/mensaje", method = RequestMethod.GET, headers = {"Accept=application/json"})

@@ -14,6 +14,11 @@ import org.springframework.data.annotation.Id;
 public class Usuario {
   @Id
     private String rfc;
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "rfc=" + rfc + ", nombre=" + nombre + ", email=" + email + ", direccion=" + direccion + '}';
+    }
     private String nombre;
     private String email;
     private Direccion direccion;

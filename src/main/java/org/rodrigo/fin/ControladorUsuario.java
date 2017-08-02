@@ -72,7 +72,7 @@ public class ControladorUsuario {
     
     //buscar por id
 @RequestMapping(value="/usuario/{rfc}", method=RequestMethod.GET,
-            headers={"Application/json"})
+            headers={"Accept=Application/json"})
    
     public Usuario buscarIdUsuario(@PathVariable String rfc){
         
